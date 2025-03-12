@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Excel File</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script>
+        function makeEditable() {
+            let cells = document.querySelectorAll("td");
+            cells.forEach(cell => {
+                cell.setAttribute("contenteditable", "true");
+                cell.style.background = "#fff7cc"; // Highlight editable cells
+            });
+            document.getElementById("saveBtn").style.display = "inline-block";
+            document.getElementById("resetBtn").style.display = "inline-block";
+        }
+
+        function resetChanges() {
+            location.reload(); // Reloads the page to undo all changes
+        }
+
+        function saveChanges() {
+            let cells = document.querySelectorAll("td[contenteditable='true']");
+            let changes = [];
+
+            cells.forEach(cell => {
+                let row = cell.getAttribute("data-row");
+                let col = cell.getAttribute("data-col");
+                let newValue = cell.innerText;
+                changes.push(`row=${row}&col=${col}&value=${encodeURIComponent(newValue)}`);
+            });
+
+            if (changes.length === 0) {
+                alert("No changes to save!");
+                return;
+            }
+
+            fetch("/excel/edit", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: changes.join("&")
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("✅ Changes saved successfully!");
+                    location.reload();
+                } else {
+                    alert("❌ Error: " + data.error);
+                }
+            })
+            .catch(error => {
+                alert("❌ Network error: Check Flask server");
+                console.error("❌ Network error:", error);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h2>Edit Excel File</h2>
+    <a href="/dashboard">🏠 Back to Dashboard</a>
+    <button onclick="makeEditable()">✏️ Edit</button>
+    <button id="saveBtn" onclick="saveChanges()" style="display:none;">💾 Save Changes</button>
+    <button id="resetBtn" onclick="resetChanges()" style="display:none;">🔄 Reset</button>
+
+    {% if table %}
+        <table border="1">
+            <tr>
+                {% for col in table[0].keys() %}
+                    <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+            {% for row_idx in range(table|length) %}
+            <tr>
+                {% for col_idx, cell in table[row_idx].items() %}
+                    <td data-row="{{ row_idx }}" data-col="{{ col_idx }}">
+                        {{ cell }}
+                    </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p style="color: red;">❌ No data available in the Excel file.</p>
+    {% endif %}
+</body>
+</html>

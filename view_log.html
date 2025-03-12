@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Edit Log</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script>
+        function showPopup(event, username) {
+            let popup = document.createElement("div");
+            popup.innerText = "Edited by: " + username;
+            popup.style.position = "absolute";
+            popup.style.background = "yellow";
+            popup.style.padding = "5px";
+            popup.style.border = "1px solid black";
+            popup.style.left = event.pageX + "px";
+            popup.style.top = event.pageY + "px";
+            popup.style.zIndex = "1000";
+            popup.id = "editPopup";
+
+            document.body.appendChild(popup);
+        }
+
+        function removePopup() {
+            let popup = document.getElementById("editPopup");
+            if (popup) {
+                document.body.removeChild(popup);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>📜 Edit Log & Excel File Preview</h2>
+
+    <a href="/dashboard">🏠 Back to Dashboard</a>
+    <a href="/download">⬇️ Download Updated Patrak</a>
+    <button onclick="window.location.reload();">💾 Refresh Log</button>
+
+    <h3>🔍 Change Log</h3>
+    {% if logs %}
+        <table border="1">
+            <tr>
+                <th>Username</th>
+                <th>Row</th>
+                <th>Column</th>
+                <th>Old Value</th>
+                <th>New Value</th>
+                <th>Timestamp</th>
+            </tr>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log["Username"] }}</td>
+                <td>{{ log["Row"] }}</td>
+                <td>{{ log["Column"] }}</td>
+                <td>{{ log["Old Value"] }}</td>
+                <td>{{ log["New Value"] }}</td>
+                <td>{{ log["Timestamp"] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p style="color: red;">❌ No changes have been made yet.</p>
+    {% endif %}
+
+    <h3>📂 Updated Excel File</h3>
+    {% if table %}
+        <table border="1">
+            <tr>
+                {% for col in table[0].keys() %}
+                    <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+            {% for row_idx in range(table|length) %}
+            <tr>
+                {% for col_idx, cell in table[row_idx].items() %}
+                    {% set cell_info = edit_map.get((row_idx, col_idx)) %}
+                    {% if cell_info %}
+                        <td onmouseover="showPopup(event, '{{ cell_info }}')" onmouseout="removePopup()">
+                            {{ cell }}
+                        </td>
+                    {% else %}
+                        <td>{{ cell }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p style="color: red;">❌ No data available in the Excel file.</p>
+    {% endif %}
+</body>
+</html>
