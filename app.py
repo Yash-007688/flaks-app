@@ -60,7 +60,7 @@ def dashboard():
         return redirect(url_for("login"))
 
     table_data = get_excel_data()
-    return render_template("dashboard.html", user=session["user"], role=session["role"], table=table_data)
+    return render_template("dashboard.html", username=session["user"], role=session["role"], table=table_data)
 
 
 # ✅ View & Edit Excel File (For Teachers/Admins)
