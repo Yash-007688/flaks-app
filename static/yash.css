@@ -22,6 +22,19 @@ h2 {
     text-align: center;
 }
 
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    max-width: 120px;
+    height: auto;
+    border-radius: 50%;
+    /* optional: makes it circular if it's a square logo */
+}
+
 form {
     background: rgba(255, 255, 255, 0.95);
     padding: 40px;
@@ -41,7 +54,8 @@ label {
     font-size: 14px;
 }
 
-input, select {
+input,
+select {
     width: 100%;
     padding: 14px 16px;
     margin-bottom: 20px;
@@ -54,7 +68,8 @@ input, select {
     color: #111827;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
     outline: none;
     border-color: #667eea;
     box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
@@ -108,18 +123,19 @@ a:hover {
 }
 
 /* Extra links outside form */
-body > a, body > p {
+body>a,
+body>p {
     margin-top: 24px;
     color: white;
     background: none;
     border: none;
 }
 
-body > p > a {
+body>p>a {
     color: #fff;
     text-decoration: underline;
 }
 
-body > p > a:hover {
+body>p>a:hover {
     color: #e2e8f0;
 }

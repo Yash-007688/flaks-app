@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="/static/yash.css">
 </head>
-<body>
-    <h2>🔑 Login</h2>
-    
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
-    {% endif %}
 
+<body>
     <form method="POST" action="/login">
+        <div class="logo-container">
+            <img src="/static/chi.png" alt="Logo" class="logo">
+        </div>
+        <h2>🔑 Login</h2>
+
+        {% if error %}
+        <p style="color: red;">{{ error }}</p>
+        {% endif %}
         <label>Username:</label>
         <input type="text" name="username" required>
         <br>
@@ -25,4 +29,5 @@
 
     <p>Don't have an account? <a href="/register">Register here</a></p>
 </body>
+
 </html>
