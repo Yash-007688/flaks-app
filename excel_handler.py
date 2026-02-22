@@ -36,8 +36,10 @@ def load_data():
         if not decrypt_file(ENC_FILE_PATH, temp_file):
             return None
 
-        # Load data
-        df = pd.read_excel(temp_file, engine="openpyxl", sheet_name="Sheet1", header=1)
+        # Load data - Using header=0 to avoid skipping rows unless necessary
+        with pd.ExcelFile(temp_file, engine="openpyxl") as xl:
+            sheet_name = "Sheet1" if "Sheet1" in xl.sheet_names else xl.sheet_names[0]
+            df = pd.read_excel(xl, sheet_name=sheet_name, header=0)
         
         # Clean up unencrypted temp file immediately
         os.remove(temp_file)
@@ -79,11 +81,9 @@ def load_log():
         return pd.DataFrame() # Return empty DataFrame if no log config found
         
     try:
-        temp_file = "temp_log.xlsx"
-        if not decrypt_file(ENC_EDIT_LOG_FILE, temp_file):
-            return pd.DataFrame()
-            
-        df = pd.read_excel(temp_file, engine="openpyxl")
+        with pd.ExcelFile(temp_file, engine="openpyxl") as xl:
+            df = pd.read_excel(xl)
+        
         os.remove(temp_file)
         return df
     except Exception as e:
