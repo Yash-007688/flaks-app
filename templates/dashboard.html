@@ -10,6 +10,22 @@
 </head>
 
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/dashboard" class="nav-logo">
+                <img src="/static/chi.png" alt="Logo">
+                <span>StreamVault</span>
+            </a>
+            <div class="nav-menu">
+                <a href="/dashboard">📊 Dashboard</a>
+                <a href="/excel">✏️ Edit Excel</a>
+                {% if role == 'Admin' %}
+                <a href="/log">📜 View Log</a>
+                {% endif %}
+                <a href="/logout" class="logout">🚪 Logout</a>
+            </div>
+        </div>
+    </nav>
     <h2>Welcome, {{ username }} (Role: {{ role }})</h2>
 
     <h3>📂 Excel File Preview</h3>
@@ -39,11 +55,7 @@
     <p style="color: red;">❌ No data available in the Excel file.</p>
     {% endif %}
 
-    <div class="nav-links">
-        <a href="/excel">✏️ Edit Excel File</a>
-        <a href="/log">📜 View Edit Log</a>
-        <a href="/logout">🚪 Logout</a>
-    </div>
+
 </body>
 
 </html>

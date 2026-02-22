@@ -33,10 +33,25 @@
 </head>
 
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/dashboard" class="nav-logo">
+                <img src="/static/chi.png" alt="Logo">
+                <span>StreamVault</span>
+            </a>
+            <div class="nav-menu">
+                <a href="/dashboard">📊 Dashboard</a>
+                <a href="/excel">✏️ Edit Excel</a>
+                {% if session.get('role') == 'Admin' %}
+                <a href="/log">📜 View Log</a>
+                {% endif %}
+                <a href="/logout" class="logout">🚪 Logout</a>
+            </div>
+        </div>
+    </nav>
     <h2>📜 Edit Log & Excel File Preview</h2>
 
     <div class="nav-links">
-        <a href="/dashboard">🏠 Back to Dashboard</a>
         <a href="/download">⬇️ Download Updated Patrak</a>
         <button onclick="window.location.reload();">💾 Refresh Log</button>
     </div>
