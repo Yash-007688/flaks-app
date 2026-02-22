@@ -1,0 +1,37 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Database files
+*.db
+*.sqlite3
+users.db
+users.xlsx
+
+# The Unencrypted Excel Files MUST NOT be uploaded
+Updated_Patrak.xlsx
+test.xlsx
+edit_log.xlsx
+"पत्रक 2025-26.xlsx"
+"????? 2025-26.xlsx"
+temp*.xlsx
+
+# Only Encrypted Files should be tracked
+!*.enc
+
+# Flask session and temporary files
+flask_session/
+*.log
+.coverage
+
+# OS generated files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,125 @@
+/* yash.css (Auth Flow Styles) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+}
+
+h2 {
+    color: #1f2937;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+form {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 380px;
+    backdrop-filter: blur(10px);
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #4b5563;
+    text-align: left;
+    font-size: 14px;
+}
+
+input, select {
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 15px;
+    transition: all 0.2s ease;
+    background-color: #f9fafb;
+    color: #111827;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+    background-color: #ffffff;
+}
+
+button {
+    background: linear-gradient(to right, #667eea, #764ba2);
+    color: white;
+    padding: 14px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(118, 75, 162, 0.25);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+p {
+    color: #ef4444;
+    font-weight: 500;
+    margin-bottom: 20px;
+    background: #fee2e2;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #fecaca;
+}
+
+a {
+    text-decoration: none;
+    color: #667eea;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
+/* Extra links outside form */
+body > a, body > p {
+    margin-top: 24px;
+    color: white;
+    background: none;
+    border: none;
+}
+
+body > p > a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+body > p > a:hover {
+    color: #e2e8f0;
+}
