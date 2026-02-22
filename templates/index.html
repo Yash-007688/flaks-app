@@ -1,60 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editable Excel File</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <script>
-        function editCell(row, col, element) {
-            let newValue = prompt("Enter new value:", element.innerText);
-            if (newValue !== null) {
-                fetch("/edit", {  // ✅ Fixed API endpoint
-                    method: "POST",
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: `row=${row}&col=${col}&value=${encodeURIComponent(newValue)}`
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(data.message);
-                        element.innerText = newValue;
-                    } else {
-                        alert("Error: " + data.error);
-                        console.error("Error:", data.error);
-                    }
-                })
-                .catch(error => {
-                    alert("❌ Network error: Check Flask server");
-                    console.error("❌ Network error:", error);
-                });
-            }
+    <title>Welcome to Patrak Portal</title>
+    <link rel="stylesheet" href="/static/yash.css">
+    <style>
+        .hero-container {
+            text-align: center;
+            max-width: 600px;
+            padding: 40px 20px;
         }
-    </script>
-</head>
-<body>
-    <h2>Editable Excel File</h2>
-    
-    {% if table and table|length > 0 %}
-        <table border="1">
-            <tr>
-                {% for col in table[0].keys() %}
-                    <th>{{ col }}</th>
-                {% endfor %}
-            </tr>
-            {% for row_idx, row in table.items() %}
-            <tr>
-                {% for col_idx, cell in row.items() %}
-                    <td onclick="editCell('{{ row_idx }}', '{{ col_idx }}', this)">{{ cell }}</td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <p style="color: red;">❌ No data available in the Excel file.</p>
-    {% endif %}
 
-    <a href="/dashboard">🏠 Back to Dashboard</a>
-    <a href="/log">📜 View Edit Log</a>
+        .hero-container h1 {
+            font-size: 48px;
+            color: #1f2937;
+            margin-bottom: 16px;
+            font-weight: 800;
+        }
+
+        .hero-container p {
+            font-size: 18px;
+            color: #4b5563;
+            background: none;
+            border: none;
+            margin-bottom: 32px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(102, 126, 234, 0.25);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(118, 75, 162, 0.35);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4b5563;
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: #667eea;
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero-container">
+        <h1>Patrak Data Portal</h1>
+        <p>A secure, encrypted platform to view and track institutional data spreadsheets efficiently.</p>
+
+        <div class="button-group">
+            <a href="/login" class="btn-primary">Sign In</a>
+            <a href="/register" class="btn-secondary">Create Account</a>
+        </div>
+    </div>
 </body>
+
 </html>

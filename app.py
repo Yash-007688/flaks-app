@@ -16,7 +16,7 @@ initialize_user_file()
 def home():
     if "user" in session:
         return redirect(url_for("dashboard"))
-    return redirect(url_for("login"))
+    return render_template("index.html")
 
 
 # ✅ User Login
