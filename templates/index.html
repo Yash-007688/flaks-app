@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamVault | Premium Excel Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='landing.css') }}">
+    <link rel="icon" type="image/png" href="/image/chi.webp">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="mesh-bg"></div>
+
+    <header>
+        <nav>
+            <a href="/" class="logo">
+                <img src="/image/chi.webp" alt="Logo">
+                StreamVault
+            </a>
+            <a href="{{ url_for('login') }}" class="btn-login">Sign In</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1 class="animate-up">Master Your Data with <span>Precision</span></h1>
+            <p class="animate-up delay-1">Experience the next generation of Excel management. Secure, aesthetic, and
+                blazing fast for admins and teachers alike.</p>
+            <div class="hero-btns animate-up delay-2">
+                <a href="{{ url_for('login') }}" class="btn-primary">Get Started Now</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature-card animate-up delay-1">
+                <i data-lucide="shield"></i>
+                <h3>Secure by Design</h3>
+                <p>Advanced encryption for your critical Excel documents. Your data is protected with enterprise-grade
+                    security protocols.</p>
+            </div>
+            <div class="feature-card animate-up delay-2">
+                <i data-lucide="zap"></i>
+                <h3>Seamless Editing</h3>
+                <p>Live, collaborative editing with real-time logging. Never lose track of a change again with our
+                    integrated audit trails.</p>
+            </div>
+            <div class="feature-card animate-up delay-2">
+                <i data-lucide="layers"></i>
+                <h3>Stunning Interface</h3>
+                <p>A clutter-free, premium experience designed for focus. Manage complex spreadsheets with a UI that
+                    breathes.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 StreamVault. All rights reserved. Crafted for excellence.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

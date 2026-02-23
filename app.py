@@ -11,12 +11,18 @@ app.secret_key = "supersecretkey"
 initialize_user_file()
 
 
+# ✅ Route to serve images from root folder
+@app.route("/image/<path:filename>")
+def serve_image(filename):
+    return send_file(os.path.join("image", filename))
+
+
 # ✅ Home Route (Redirect to Dashboard or Login)
 @app.route("/")
 def home():
     if "user" in session:
         return redirect(url_for("dashboard"))
-    return redirect(url_for("login"))
+    return render_template("index.html")
 
 
 # ✅ User Login
