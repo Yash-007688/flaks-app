@@ -43,8 +43,8 @@ def load_data():
         with pd.ExcelFile(temp_file, engine="openpyxl") as xl:
             print(f"📌 Sheets found: {xl.sheet_names}")
             sheet_name = "Sheet1" if "Sheet1" in xl.sheet_names else xl.sheet_names[0]
-            print(f"📖 Reading sheet: {sheet_name}")
-            df = pd.read_excel(xl, sheet_name=sheet_name, header=0)
+            print(f"📖 Reading sheet: {sheet_name} (header=None)")
+            df = pd.read_excel(xl, sheet_name=sheet_name, header=None)
         
         # Clean up unencrypted temp file immediately
         if os.path.exists(temp_file):
@@ -54,7 +54,7 @@ def load_data():
             print("❌ Error: Excel file is empty.")
             return None
             
-        print(f"✅ Loaded {len(df)} rows from Excel.")
+        print(f"✅ Loaded {len(df)} rows and {len(df.columns)} columns.")
         df.fillna("", inplace=True)
         return df
     except Exception as e:
@@ -64,19 +64,34 @@ def load_data():
             os.remove("temp_patrak.xlsx")
         return None
 
+def get_excel_labels(count):
+    """Generates Excel column labels like A, B, C... Z, AA, AB..."""
+    labels = []
+    for i in range(count):
+        label = ""
+        temp = i
+        while temp >= 0:
+            label = chr(65 + (temp % 26)) + label
+            temp = (temp // 26) - 1
+        labels.append(label)
+    return labels
+
 def get_excel_data():
     """Returns Excel data as a list of dictionaries for rendering in HTML."""
     df = load_data()
     if df is None or df.empty:
         return []
-    return df.to_dict(orient="records")
+    
+    # Since header=None, we use Excel labels or numbers
+    # We'll return a list of lists (rows) instead of dicts to keep column order strictly as per indices
+    return df.values.tolist()
 
 def save_data(df):
     """Saves the updated DataFrame to an encrypted Excel file."""
     temp_file = "temp_save.xlsx"
     
-    # Save unencrypted version temporarily
-    df.to_excel(temp_file, index=False, engine="openpyxl")
+    # Save unencrypted version temporarily - NO HEADERS, NO INDEX
+    df.to_excel(temp_file, index=False, header=False, engine="openpyxl")
     
     # Encrypt to real file and delete unencrypted footprint
     encrypt_file(temp_file, ENC_FILE_PATH)

@@ -89,14 +89,15 @@
     <div class="table-container">
         <table border="1">
             <tr>
-                {% for col in table[0].keys() %}
-                <th>{{ col }}</th>
+                {% for label in labels %}
+                <th>{{ label }}</th>
                 {% endfor %}
             </tr>
             {% for row_idx in range(table|length) %}
             <tr>
-                {% for col_name, cell in table[row_idx].items() %}
-                {% set cell_info = edit_map.get((row_idx, loop.index0)) %}
+                {% for cell in table[row_idx] %}
+                {% set col_idx = loop.index0 %}
+                {% set cell_info = edit_map.get((row_idx, col_idx)) %}
                 {% if cell_info %}
                 <td onmouseover="showPopup(event, '{{ cell_info }}')" onmouseout="removePopup()">
                     {{ cell }}

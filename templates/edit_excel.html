@@ -93,13 +93,13 @@
     <div class="table-container">
         <table border="1">
             <tr>
-                {% for col in table[0].keys() %}
-                <th>{{ col }}</th>
+                {% for label in labels %}
+                <th>{{ label }}</th>
                 {% endfor %}
             </tr>
             {% for row_idx in range(table|length) %}
             <tr>
-                {% for col_name, cell in table[row_idx].items() %}
+                {% for cell in table[row_idx] %}
                 <td data-row="{{ row_idx }}" data-col="{{ loop.index0 }}">
                     {{ cell }}
                 </td>

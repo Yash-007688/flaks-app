@@ -59,8 +59,10 @@ def dashboard():
     if "user" not in session:
         return redirect(url_for("login"))
 
+    from excel_handler import get_excel_labels
     table_data = get_excel_data()
-    return render_template("dashboard.html", username=session["user"], role=session["role"], table=table_data)
+    labels = get_excel_labels(len(table_data[0])) if table_data else []
+    return render_template("dashboard.html", username=session["user"], role=session["role"], table=table_data, labels=labels)
 
 
 # ✅ View & Edit Excel File (For Teachers/Admins)
@@ -69,8 +71,10 @@ def view_excel():
     if "user" not in session:
         return redirect(url_for("login"))
 
+    from excel_handler import get_excel_labels
     table_data = get_excel_data()
-    return render_template("edit_excel.html", table=table_data)
+    labels = get_excel_labels(len(table_data[0])) if table_data else []
+    return render_template("edit_excel.html", table=table_data, labels=labels)
 
 
 # ✅ Edit Excel File (Save Changes)
@@ -117,8 +121,10 @@ def view_log():
         logs = []
         edit_map = {}
 
+    from excel_handler import get_excel_labels
     table_data = get_excel_data()
-    return render_template("view_log.html", logs=logs, table=table_data, edit_map=edit_map)
+    labels = get_excel_labels(len(table_data[0])) if table_data else []
+    return render_template("view_log.html", logs=logs, table=table_data, edit_map=edit_map, labels=labels)
 
 
 # ✅ Route to Download Updated Excel File
