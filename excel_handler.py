@@ -33,21 +33,28 @@ def load_data():
     try:
         # Decrypt to a temporary file
         temp_file = "temp_patrak.xlsx"
+        print(f"🔓 Decrypting {ENC_FILE_PATH} to {temp_file}...")
         if not decrypt_file(ENC_FILE_PATH, temp_file):
+            print("❌ Error: Decryption failed.")
             return None
 
         # Load data - Using header=0 to avoid skipping rows unless necessary
+        print(f"📊 Reading Excel file: {temp_file}")
         with pd.ExcelFile(temp_file, engine="openpyxl") as xl:
+            print(f"📌 Sheets found: {xl.sheet_names}")
             sheet_name = "Sheet1" if "Sheet1" in xl.sheet_names else xl.sheet_names[0]
+            print(f"📖 Reading sheet: {sheet_name}")
             df = pd.read_excel(xl, sheet_name=sheet_name, header=0)
         
         # Clean up unencrypted temp file immediately
-        os.remove(temp_file)
+        if os.path.exists(temp_file):
+            os.remove(temp_file)
 
         if df.empty:
             print("❌ Error: Excel file is empty.")
             return None
             
+        print(f"✅ Loaded {len(df)} rows from Excel.")
         df.fillna("", inplace=True)
         return df
     except Exception as e:
@@ -81,10 +88,18 @@ def load_log():
         return pd.DataFrame() # Return empty DataFrame if no log config found
         
     try:
+        temp_file = "temp_log.xlsx"
+        print(f"🔓 Decrypting {ENC_EDIT_LOG_FILE} to {temp_file}...")
+        if not decrypt_file(ENC_EDIT_LOG_FILE, temp_file):
+            print("❌ Error: Failed to decrypt log file.")
+            return pd.DataFrame()
+
         with pd.ExcelFile(temp_file, engine="openpyxl") as xl:
             df = pd.read_excel(xl)
         
-        os.remove(temp_file)
+        if os.path.exists(temp_file):
+            os.remove(temp_file)
+        print(f"✅ Loaded {len(df)} log entries.")
         return df
     except Exception as e:
         if os.path.exists("temp_log.xlsx"):

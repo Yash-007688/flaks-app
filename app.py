@@ -134,6 +134,33 @@ def download_excel():
     return "❌ Error: No updated file found.", 404
 
 
+# ✅ Debug Route (To check if data is loading on Render)
+@app.route("/debug-data")
+def debug_data():
+    if "user" not in session or session["role"] != "Admin":
+        return redirect(url_for("login"))
+    
+    from excel_handler import load_data, ENC_FILE_PATH, FILE_PATH
+    import os
+    
+    status = {
+        "encrypted_file_exists": os.path.exists(ENC_FILE_PATH),
+        "original_file_exists": os.path.exists(FILE_PATH),
+        "encryption_key_set": "ENCRYPTION_KEY" in os.environ,
+        "data_loaded": False,
+        "rows": 0,
+        "columns": []
+    }
+    
+    df = load_data()
+    if df is not None:
+        status["data_loaded"] = True
+        status["rows"] = len(df)
+        status["columns"] = list(df.columns)
+        
+    return jsonify(status)
+
+
 # ✅ User Logout
 @app.route("/logout")
 def logout():
